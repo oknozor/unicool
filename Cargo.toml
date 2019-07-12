@@ -1,0 +1,7 @@
+[workspace]
+
+members = [
+    "unicool-lib",
+    "unicool-cli",
+    "unicool-web",
+]
