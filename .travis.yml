@@ -1,0 +1,23 @@
+---
+language: rust
+
+rust:
+  - stable
+  - beta
+  - nightly
+cache: cargo
+
+matrix:
+  allow_failures:
+    - rust: nightly
+  fast_finish: true
+
+before_script:
+- rustup component add rustfmt
+- cargo install cargo-web
+
+script:
+  - cargo fmt --all -- --check
+  - cargo build -p unicool-cli
+  - cargo web build -p unicool-web
+  - cargo test --verbose --all

@@ -1,4 +1,6 @@
-# Unicool 
+# Unicool &emsp; ![Build Status]
+
+[Build Status]: https://travis-ci.org/oknozor/unicool.svg?branch=master
 
 Unicool is a small set of tools to convert non ascci characters in a file or raw input to escaped unicode characters. 
 
