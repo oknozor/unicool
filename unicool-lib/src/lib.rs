@@ -1,7 +1,6 @@
 use std::io::Write;
 use std::string::FromUtf8Error;
 
-
 pub fn convert_non_ascii_to_unicode(input: &str) -> Result<String, FromUtf8Error> {
     let bytes = input.as_bytes();
 
@@ -20,10 +19,9 @@ pub fn convert_non_ascii_to_unicode(input: &str) -> Result<String, FromUtf8Error
             }
         };
         pos += 1;
-    };
+    }
     String::from_utf8(buffer)
 }
-
 
 #[cfg(test)]
 mod tests {
@@ -40,8 +38,9 @@ mod tests {
 
     #[test]
     fn test_complete_sentence() {
-        assert_eq!(convert_non_ascii_to_unicode("Ça, ça c'est vraiment toi!").unwrap(),
-                   "\\uc387\\u8761a, \\uc3a7\\ua761a c\'est vraiment toi");
-
+        assert_eq!(
+            convert_non_ascii_to_unicode("Ça, ça c'est vraiment toi!").unwrap(),
+            "\\uc387\\u8761a, \\uc3a7\\ua761a c\'est vraiment toi"
+        );
     }
 }

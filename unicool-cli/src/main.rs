@@ -1,7 +1,7 @@
 extern crate clap;
 extern crate unicool_lib;
 
-use clap::{Arg, App};
+use clap::{App, Arg};
 use std::fs::File;
 use std::io::{Read, Write};
 
@@ -15,29 +15,35 @@ fn main() {
         .version("1.0")
         .author("Paul D. <paul.delafosse@protonmail.com>")
         .about("Escape all non ascii unicode characters in a file or raw input")
-        .arg(Arg::with_name(ARG_RAW)
-            .short("r")
-            .takes_value(true)
-            .value_name("STR")
-            .help("The raw input to parse"))
-        .arg(Arg::with_name(ARG_FILE)
-            .short("f")
-            .conflicts_with(ARG_RAW)
-            .takes_value(true)
-            .value_name("INPUT_FILE")
-            .help("Sets the input file to use"))
-        .arg(Arg::with_name(ARG_OUTPUT)
-            .short("o")
-            .takes_value(true)
-            .value_name("OUTPUT_FILE")
-            .help("The output file to write"))
+        .arg(
+            Arg::with_name(ARG_RAW)
+                .short("r")
+                .takes_value(true)
+                .value_name("STR")
+                .help("The raw input to parse"),
+        )
+        .arg(
+            Arg::with_name(ARG_FILE)
+                .short("f")
+                .conflicts_with(ARG_RAW)
+                .takes_value(true)
+                .value_name("INPUT_FILE")
+                .help("Sets the input file to use"),
+        )
+        .arg(
+            Arg::with_name(ARG_OUTPUT)
+                .short("o")
+                .takes_value(true)
+                .value_name("OUTPUT_FILE")
+                .help("The output file to write"),
+        )
         .get_matches();
-
 
     let output = matches.value_of(ARG_OUTPUT);
     if let Some(path) = matches.value_of(ARG_FILE) {
         let content = get_file(path).expect("File not found");
-        let escaped = unicool_lib::convert_non_ascii_to_unicode(&content).expect(ESCAPE_ERROR_MESSAGE);
+        let escaped =
+            unicool_lib::convert_non_ascii_to_unicode(&content).expect(ESCAPE_ERROR_MESSAGE);
 
         print_or_write(output, escaped);
     } else if let Some(raw) = matches.value_of(ARG_RAW) {
@@ -49,7 +55,7 @@ fn main() {
 fn print_or_write(output: Option<&str>, escaped: String) {
     match output {
         Some(path) => write_output(path, escaped).expect("Unable to write to output file"),
-        None => println!("{}", escaped)
+        None => println!("{}", escaped),
     }
 }
 
@@ -66,4 +72,3 @@ fn write_output(path: &str, contents: String) -> std::io::Result<()> {
     file.write_all(contents.as_bytes())?;
     Ok(())
 }
-
